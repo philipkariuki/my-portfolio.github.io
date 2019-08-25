@@ -10,6 +10,13 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="assets/js/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("user_ecwrDE9aOEe9VYP32lz0q");
+   })();
+</script>
 	</head>
 	<body class="is-preload">
 
@@ -144,30 +151,60 @@
 						<p>Like my work? Hit me up below and I will get back to you soonest.</p>
 					</header>
 					<div class="row">
+
+						
 						<div class="col-12">
-							<form method="post" action="#">
+							<form id="myform" method="post">
 								<div class="row">
 									<div class="col-6 col-12-small">
-										<input type="text" name="name" id="name" placeholder="Name" />
+										<input type="text" name="from_name" id="name" placeholder="Name" />
 									</div>
 									<div class="col-6 col-12-small">
-										<input type="text" name="email" id="email" placeholder="Email" />
+										<input type="text" name="from_email" id="email" placeholder="Email" />
 									</div>
 									<div class="col-12">
-										<input type="text" name="subject" id="subject" placeholder="Subject" />
-									</div>
-									<div class="col-12">
-										<textarea name="message" id="message" placeholder="Message"></textarea>
+										<textarea name="message_html" id="message" placeholder="Message"></textarea>
 									</div>
 									<div class="col-12">
 										<ul class="actions">
-											<li><input type="submit" value="Send Message" /></li>
+											<li><input type="submit" id="buttona" value="Send Message" /></li>
 											<li><input type="reset" value="Clear Form" class="alt" /></li>
 										</ul>
 									</div>
 								</div>
 							</form>
 						</div>
+
+
+
+
+						<script>
+								var myform = $("form#myform");
+								myform.submit(function(event){
+									event.preventDefault();
+
+								// Change to your service ID, or keep using the default service
+								var service_id = "default_service";
+								var template_id = "template_rtS3n0Bx";
+
+								myform.find("button").text("Sending...");
+								emailjs.sendForm(service_id,template_id,myform[0])
+									.then(function(){ 
+										alert("Sent!");
+									myform.find("button").text("Send");
+									}, function(err) {
+									alert("Send email failed!\r\n Response:\n " + JSON.stringify(err));
+									myform.find("button").text("Send");
+									});
+								return false;
+								});
+							  </script>
+
+
+
+
+
+
 						<div class="col-12">
 							<hr />
 							<h3>Find me on ...</h3>
@@ -188,7 +225,7 @@
 			</article>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
+			
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
